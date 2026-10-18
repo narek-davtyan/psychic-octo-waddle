@@ -1,0 +1,28 @@
+@model RegisterViewModel
+@{
+    ViewData["Title"] = "Register";
+}
+<h1>Create an account</h1>
+
+<form asp-action="Register" method="post" class="card form" autocomplete="off">
+    <div asp-validation-summary="ModelOnly" class="validation-summary"></div>
+
+    <label asp-for="Username"></label>
+    <input asp-for="Username" maxlength="32" required autocomplete="username" />
+    <span asp-validation-for="Username" class="field-error"></span>
+
+    <label asp-for="Email"></label>
+    <input asp-for="Email" type="email" maxlength="254" required autocomplete="email" />
+    <span asp-validation-for="Email" class="field-error"></span>
+
+    <label asp-for="Password"></label>
+    <input asp-for="Password" type="password" maxlength="128" required autocomplete="new-password" />
+    <span asp-validation-for="Password" class="field-error"></span>
+    <small class="muted">At least 12 characters with upper-case, lower-case, a digit and a symbol.</small>
+
+    <label asp-for="ConfirmPassword"></label>
+    <input asp-for="ConfirmPassword" type="password" maxlength="128" required autocomplete="new-password" />
+    <span asp-validation-for="ConfirmPassword" class="field-error"></span>
+
+    <button type="submit" class="button">Register</button>
+</form>

@@ -1,0 +1,25 @@
+@{
+    ViewData["Title"] = "Home";
+}
+<h1>Welcome to SafeVault</h1>
+<p class="lead">A small ASP.NET Core MVC application that demonstrates secure user management on .NET 10.</p>
+
+<ul class="feature-list">
+    <li>Strong password hashing (PBKDF2-HMAC-SHA512, per-user random salt)</li>
+    <li>Cookie authentication with role-based authorization (User / Admin)</li>
+    <li>Whitelist input validation plus XSS and SQL-injection pattern rejection</li>
+    <li>CSRF tokens, rate limiting, account lockout and security headers</li>
+    <li>Audit trail of security events</li>
+</ul>
+
+@if (User.Identity?.IsAuthenticated == true)
+{
+    <p>You are signed in as <strong>@User.Identity.Name</strong>. <a asp-controller="Account" asp-action="Me">View your profile</a>.</p>
+}
+else
+{
+    <p>
+        <a class="button" asp-controller="Account" asp-action="Login">Sign in</a>
+        <a class="button button-secondary" asp-controller="Account" asp-action="Register">Create an account</a>
+    </p>
+}

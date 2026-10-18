@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>@ViewData["Title"] - SafeVault</title>
+    @* Local stylesheet only: the Content-Security-Policy blocks every other origin. *@
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body>
+    <header class="site-header">
+        <a class="brand" asp-controller="Home" asp-action="Index">SafeVault</a>
+        <nav>
+            @if (User.Identity?.IsAuthenticated == true)
+            {
+                <a asp-controller="Account" asp-action="Me">My profile</a>
+                @if (User.IsInRole(Roles.Admin))
+                {
+                    <a asp-controller="Admin" asp-action="Index">Admin</a>
+                }
+                @* Logout is a POST form (the form tag helper adds the antiforgery token). *@
+                <form asp-controller="Account" asp-action="Logout" method="post" class="inline-form">
+                    <button type="submit" class="link-button">Sign out (@User.Identity.Name)</button>
+                </form>
+            }
+            else
+            {
+                <a asp-controller="Account" asp-action="Login">Sign in</a>
+                <a asp-controller="Account" asp-action="Register">Register</a>
+            }
+        </nav>
+    </header>
+
+    <main class="container">
+        @* Razor HTML-encodes everything written with @ - this is the main XSS defence on output. *@
+        @if (TempData["Success"] is string ok)
+        {
+            <div class="alert alert-success" role="status">@ok</div>
+        }
+        @if (TempData["Error"] is string err)
+        {
+            <div class="alert alert-error" role="alert">@err</div>
+        }
+        @RenderBody()
+    </main>
+
+    <footer class="site-footer">SafeVault &middot; secure user management demo &middot; .NET 10</footer>
+</body>
+</html>

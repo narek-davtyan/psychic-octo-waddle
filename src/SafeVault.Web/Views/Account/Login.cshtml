@@ -1,0 +1,23 @@
+@model LoginViewModel
+@{
+    ViewData["Title"] = "Sign in";
+}
+<h1>Sign in</h1>
+
+<form asp-action="Login" method="post" class="card form">
+    <div asp-validation-summary="ModelOnly" class="validation-summary"></div>
+
+    @* ReturnUrl is re-checked with Url.IsLocalUrl on the server, so it cannot cause an open redirect. *@
+    <input asp-for="ReturnUrl" type="hidden" />
+
+    <label asp-for="Username"></label>
+    <input asp-for="Username" maxlength="32" required autocomplete="username" />
+    <span asp-validation-for="Username" class="field-error"></span>
+
+    <label asp-for="Password"></label>
+    <input asp-for="Password" type="password" maxlength="128" required autocomplete="current-password" />
+    <span asp-validation-for="Password" class="field-error"></span>
+
+    <button type="submit" class="button">Sign in</button>
+</form>
+<p>No account yet? <a asp-action="Register">Register</a></p>

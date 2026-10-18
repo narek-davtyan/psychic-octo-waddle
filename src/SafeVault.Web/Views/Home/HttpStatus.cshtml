@@ -1,0 +1,19 @@
+@model ErrorViewModel
+@{
+    ViewData["Title"] = $"Error {Model.StatusCode}";
+    var message = Model.StatusCode switch
+    {
+        400 => "The request was not valid (for example an expired form). Please go back and try again.",
+        403 => "You do not have permission to view this page.",
+        404 => "That page could not be found.",
+        429 => "Too many requests. Please slow down.",
+        _ => "The request could not be completed."
+    };
+}
+<h1>@Model.StatusCode</h1>
+<p>@message</p>
+@if (Model.ShowRequestId)
+{
+    <p class="muted">Reference: <code>@Model.RequestId</code></p>
+}
+<p><a asp-controller="Home" asp-action="Index">Back to the home page</a></p>

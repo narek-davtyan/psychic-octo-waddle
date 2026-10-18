@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>SafeVault.Web</RootNamespace>
+    <AssemblyName>SafeVault.Web</AssemblyName>
+    <!-- Keep the build strict: nullable and analyzer issues should be noticed early. -->
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  </PropertyGroup>
+
+  <!--
+    Intentionally NO third-party NuGet packages:
+    hashing (PBKDF2), cookie auth, rate limiting, antiforgery and the file-backed
+    store all use the .NET 10 shared framework, so the app restores and runs offline.
+  -->
+
+</Project>

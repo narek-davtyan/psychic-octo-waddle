@@ -1,0 +1,12 @@
+@model ProfileViewModel
+@{
+    ViewData["Title"] = "My profile";
+}
+<h1>My profile</h1>
+<dl class="card details">
+    <dt>Username</dt><dd>@Model.Username</dd>
+    <dt>Email</dt><dd>@Model.Email</dd>
+    <dt>Role</dt><dd>@Model.Role</dd>
+    <dt>Member since</dt><dd>@Model.CreatedUtc.ToString("yyyy-MM-dd HH:mm") UTC</dd>
+    <dt>Last sign-in</dt><dd>@(Model.LastLoginUtc?.ToString("yyyy-MM-dd HH:mm") + " UTC")</dd>
+</dl>

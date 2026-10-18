@@ -1,0 +1,52 @@
+@model AdminIndexViewModel
+@{
+    ViewData["Title"] = "Admin dashboard";
+}
+<h1>Admin dashboard</h1>
+
+<h2>Users (@Model.Users.Count)</h2>
+<div class="table-wrap">
+<table class="table">
+    <thead>
+        <tr><th>Username</th><th>Email</th><th>Role</th><th>Created (UTC)</th><th>Last sign-in</th><th>Actions</th></tr>
+    </thead>
+    <tbody>
+    @foreach (var u in Model.Users)
+    {
+        <tr>
+            <td>@u.Username</td>
+            <td>@u.Email</td>
+            <td>@u.Role</td>
+            <td>@u.CreatedUtc.ToString("yyyy-MM-dd HH:mm")</td>
+            <td>@(u.LastLoginUtc?.ToString("yyyy-MM-dd HH:mm") ?? "never")</td>
+            <td class="actions">
+                @* Every state-changing action is a POST form, so each one carries an antiforgery token. *@
+                <form asp-action="SetRole" method="post" class="inline-form">
+                    <input type="hidden" name="id" value="@u.Id" />
+                    <input type="hidden" name="role" value="@(u.Role == Roles.Admin ? Roles.User : Roles.Admin)" />
+                    <button type="submit" class="button button-small">Make @(u.Role == Roles.Admin ? Roles.User : Roles.Admin)</button>
+                </form>
+                @if (u.Id != Model.CurrentUserId)
+                {
+                    <form asp-action="Delete" method="post" class="inline-form">
+                        <input type="hidden" name="id" value="@u.Id" />
+                        <button type="submit" class="button button-small button-danger">Delete</button>
+                    </form>
+                }
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
+</div>
+
+<h2>Recent audit events</h2>
+@if (Model.RecentAuditLines.Count == 0)
+{
+    <p class="muted">No events recorded yet.</p>
+}
+else
+{
+    @* Log text is attacker-influenced (usernames etc.) - it is HTML-encoded by Razor like everything else. *@
+    <pre class="log">@string.Join(Environment.NewLine, Model.RecentAuditLines)</pre>
+}
